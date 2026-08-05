@@ -80,8 +80,8 @@ Copy the Python files from the
 
 - **Discovery:** `discover.py`, `title_filter.py`, `normalize.py`,
   `linkedin_fallback.py`, `config.py`, `ats-targets.yaml`.
-- **Folder/tracker layer** (what steps 2 and 5 of `/apply` call):
-  `read_jds.py`, `dedup_check.py`, `purge_opportunities.py`.
+- **Folder/tracker layer** (what steps 1a, 2, and 5 of `/apply` call):
+  `read_jds.py`, `dedup_check.py`, `purge_opportunities.py`, `promote_pending.py`.
 
 Then install deps (PyYAML for discovery, openpyxl for the tracker layer — both in
 `requirements.txt`) and smoke-test:

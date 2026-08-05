@@ -45,16 +45,20 @@ Load in parallel; skim, don't dump (you only need company + title + status):
 
 ## Step 1a — Promote completed Pending-applications folders
 
-Sweep `Job-applications-TPM/Pending-applications/`. For each company folder:
+Run the promotion script (from the apply-pipeline engine; needs `openpyxl`):
 
-- If it contains a file with `Resume` in the name (any extension) → the user has
-  tailored their resume and is ready. **Move the whole folder** up to
-  `Job-applications-TPM/<Company>/`, then update `Application tracker.xlsx`:
-  `Date applied` = today, `Status` = `Applied - awaiting response` (append a row
-  if none exists, carrying `Title` + `Link` from the opportunities tracker).
-- If no Resume file → leave it.
+```bash
+python3 Job-applications-TPM/promote_pending.py
+```
 
-Save the tracker.
+For each folder in `Pending-applications/` that now contains a file with `Resume`
+in the name, it moves the folder up to `Job-applications-TPM/<Company>/` (merging
+if that company folder already exists), writes an `Application tracker.xlsx` row
+(`Date applied` = today, `Status` = `Applied - awaiting response`, carrying
+`Title`/`Link` from the matching opportunities row — updating an existing row
+rather than duplicating), and flags the opportunities row `Applied = Y`. Folders
+without a resume are left in place. It prints which folders it promoted or
+skipped — surface that in the Step 8 log.
 
 ## Step 1b — Email sweep **[needs Gmail]**
 
