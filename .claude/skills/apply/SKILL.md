@@ -90,18 +90,22 @@ Re-read `Application tracker.xlsx` after 1a + 1b before continuing.
 
 ## Step 2 — Re-verify the opportunities backlog
 
-Sweep `TPM opportunities.xlsx`:
+Run the purge script (from the apply-pipeline engine; needs `openpyxl`):
 
-- **Move rows where `Worth Applying = N` OR `Valid? = N`** to the
-  `Rejected opportunities` sheet (append `Rejected on` = today + a one-line
-  `Reason`). Renumber `S.No` on the Opportunities sheet.
-- **Delete rows where `Applied = Y`** (case-insensitive). Before deleting, make
-  sure the role is captured in `Application tracker.xlsx` (append a row if not).
-  Renumber `S.No`.
-- Rows where `Applied` is blank/`N` are left alone.
+```bash
+python3 Job-applications-TPM/purge_opportunities.py
+```
 
-The `Rejected opportunities` sheet is **append-only** — never re-surface a role
-the user already reviewed and declined. Save the file.
+It sweeps `TPM opportunities.xlsx`: moves rows where `Worth Applying = N` OR
+`Valid? = N` to the append-only `Rejected opportunities` sheet (with today's date
+and a one-line reason), deletes rows where `Applied = Y`, and renumbers `S.No`.
+Rows where `Applied` is blank/`N` are left alone. The `Rejected opportunities`
+sheet is never re-surfaced.
+
+**One thing the script doesn't do:** if a deleted `Applied = Y` row isn't yet in
+`Application tracker.xlsx`, append a tracker row for it (the user may have marked
+`Applied` directly without going through `Pending-applications/`). Check after the
+purge and add any missing rows.
 
 ## Step 3 — Discover fresh roles (ATS JSON APIs)
 
@@ -211,10 +215,25 @@ its own a reason to fetch — note `salary unlisted` and move on.
 - Rank by Fitment, then by your location preference, then by posting freshness.
 - **If fewer than 3 qualify, say so honestly.** Show the 1 or 2 you have and state
   you didn't pad. Never surface 3s to fill space.
-- Dedup once more against the tracker, `<Company>/` folders, `Rejected/`, and the
-  `Rejected opportunities` sheet. Exact company + normalized-title match → drop
-  silently (log for audit). Same company, clearly different role → surface with
-  `⚠ already applied to <Company> — verify this is a different role`.
+- **Run the layered dedup** (from the apply-pipeline engine; needs `openpyxl`)
+  against the trackers and on-disk folders:
+
+  ```bash
+  python3 Job-applications-TPM/dedup_check.py --candidates apply_candidates.json --pretty
+  ```
+
+  (Pass `--candidates` twice if you also have LinkedIn-fallback candidates.) It
+  reads `Application tracker.xlsx`, the `Rejected opportunities` sheet, and the
+  `<Company>/` folders, and returns a verdict per candidate:
+  - `exact_match` (any `match_source`) → **drop silently**; log the drop +
+    `match_source` for audit.
+  - `company_match` → surface with `⚠ already applied to <Company> — verify this
+    is a different role`.
+  - `fresh` → surface clean.
+
+  Trust the verdict field — don't re-derive the drop rule by eye. `Rejected/`
+  folders aren't read by the script; check those yourself and surface (don't
+  silently drop) a same-company role so a genuine second role isn't lost.
 
 ## Step 6 — Warm-story hook
 

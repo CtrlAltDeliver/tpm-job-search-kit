@@ -76,8 +76,15 @@ prompt:
 
 Copy the Python files from the
 [apply-pipeline repo](https://github.com/CtrlAltDeliver/apply-pipeline) into
-`Job-applications-TPM/`. That's `discover.py`, `title_filter.py`, `normalize.py`,
-`linkedin_fallback.py`, `config.py`, and `ats-targets.yaml`. Then:
+`Job-applications-TPM/`. You want both halves:
+
+- **Discovery:** `discover.py`, `title_filter.py`, `normalize.py`,
+  `linkedin_fallback.py`, `config.py`, `ats-targets.yaml`.
+- **Folder/tracker layer** (what steps 2 and 5 of `/apply` call):
+  `read_jds.py`, `dedup_check.py`, `purge_opportunities.py`.
+
+Then install deps (PyYAML for discovery, openpyxl for the tracker layer — both in
+`requirements.txt`) and smoke-test:
 
 ```bash
 cd Job-applications-TPM && pip install -r requirements.txt && python3 discover.py --pretty
