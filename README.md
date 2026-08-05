@@ -22,6 +22,16 @@ so most of the work on day one is setting up *your* content — not the tooling.
 | `mock-interviews/` | Feedback from past mock rounds, so the coaching improves over time. |
 | `me/` | Your resume and personal goals. |
 
+## Related repos
+
+This kit is the **front door** of a three-repo set — start here, then pull the
+other two in as you go:
+
+| Repo | What it is | How it fits |
+|---|---|---|
+| **[apply-pipeline](https://github.com/CtrlAltDeliver/apply-pipeline)** | The parallel job-discovery engine (Python). | The `/apply` skill here *runs* it. Copy its files into `Job-applications-TPM/` (setup step 4). |
+| **[tpm-toolkit](https://github.com/CtrlAltDeliver/tpm-toolkit)** | The wider set of TPM slash-command skills — `score`, `tailor`, `companyresearch`, `referrals`, `interview-prep`. | Drop any of these into `.claude/skills/` alongside `apply` and `interview-prep` for the full workflow. |
+
 ## What you need
 
 - **[Claude Code](https://claude.com/claude-code)** — the skills (`SKILL.md` files) are a Claude Code construct. The discovery *engine* is plain Python and runs anywhere, but the routines assume Claude Code.
