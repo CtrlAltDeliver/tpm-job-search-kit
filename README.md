@@ -34,12 +34,17 @@ other two in as you go:
 
 ## What you need
 
-- **[Claude Code](https://claude.com/claude-code)** — the skills (`SKILL.md` files) are a Claude Code construct. The discovery *engine* is plain Python and runs anywhere, but the routines assume Claude Code.
+- **[Claude Code](https://claude.com/claude-code)** — the skills (`SKILL.md` files) are a Claude Code construct. The discovery *engine* is plain Python and runs anywhere, but the routines assume Claude Code. Reading/writing the `.xlsx` trackers and creating `.docx` job-description files use the **`xlsx` and `docx` skills that ship with Claude Code** — nothing extra to install.
 - **Python 3.8+** — for the discovery engine (`pip install pyyaml`).
-- **Optional connectors** (the routines degrade gracefully without them):
-  - **Gmail MCP** — for the inbox sweep (auto-updates application statuses) and the daily summary draft.
-  - **Browser (Claude-in-Chrome) MCP** — for interviewer LinkedIn lookup and referral search.
-  - **xlsx skill** — to read/write the `.xlsx` trackers.
+- **Your own connectors, optionally** — these are per-user integrations you enable in *your* Claude Code, authenticated to *your* accounts. There is nothing to download here, and nobody ships theirs to anyone — the skill detects whether each is present and **skips those steps gracefully** when it isn't. `/apply` runs fine without them (discovery + scoring + trackers); connecting them just lights up more:
+  - **Gmail** — the inbox sweep (auto-updates application statuses) and the daily summary draft.
+  - **Browser (Claude-in-Chrome)** — interviewer LinkedIn lookup and referral search.
+
+> **Why there are no connector "files" in this repo:** an MCP connector is an
+> OAuth link to a specific account. It can't be packaged and shipped — and you
+> wouldn't want it to be (that would hand your inbox and LinkedIn session to
+> anyone who cloned it). Everything that *is* a file is already in these repos;
+> connectors you add yourself, once, in your own environment.
 
 ## Day-one setup (do these in order)
 
