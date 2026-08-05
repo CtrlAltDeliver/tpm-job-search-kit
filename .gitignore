@@ -1,0 +1,15 @@
+# Ignore your private data — keep the repo shareable
+me/*Resume*.pdf
+me/*resume*.pdf
+Application tracker.xlsx
+TPM opportunities.xlsx
+priorities.md
+ats-targets.yaml
+seen.json
+daily-notes/*.md
+company-context/*.md
+!company-context/README.md
+mock-interviews/*.docx
+Job-applications-TPM/*.py
+Job-applications-TPM/**/*.docx
+.DS_Store

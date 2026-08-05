@@ -1,0 +1,35 @@
+# ATS targets — company -> ATS platform + slug
+# EDIT: rename to ats-targets.yaml and fill with your own targets.
+#
+# The discovery engine hits each company's PUBLIC ATS JSON endpoint. To find a
+# company's slug, open their careers page and look at the URL:
+#   boards.greenhouse.io/SLUG        -> greenhouse
+#   jobs.lever.co/SLUG               -> lever
+#   jobs.ashbyhq.com/SLUG            -> ashby
+#   SLUG.freshteam.com               -> freshteam
+#   SLUG.careers.hibob.com           -> hibob
+#
+# status: verified  -> has a clean public JSON endpoint (fast path)
+# status: todo       -> no clean JSON; covered by the LinkedIn fallback instead
+
+companies:
+  - name: Example Greenhouse Co
+    ats: greenhouse
+    slug: examplegreenhouseco
+    status: verified
+
+  - name: Example Lever Co
+    ats: lever
+    slug: exampleleverco
+    status: verified
+
+  - name: Example Ashby Co
+    ats: ashby
+    slug: exampleashbyco
+    status: verified
+
+  # A company with no clean JSON endpoint — LinkedIn fallback picks it up.
+  - name: Big Co On Workday
+    ats: workday
+    slug: ""
+    status: todo
