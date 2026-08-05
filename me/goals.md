@@ -9,7 +9,7 @@
 - e.g. Remote-Canada, or <your city> hybrid, willing/not willing to relocate
 
 ## Compensation floor
-- e.g. CAD 150K base minimum
+- e.g. CAD xxxK base minimum
 
 ## Industries / domains I want
 - e.g. payments, marketplace, developer tools, fintech
